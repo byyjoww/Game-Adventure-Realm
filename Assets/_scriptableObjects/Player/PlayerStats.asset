@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc96cea8602896d45aa427f27c6309a4, type: 3}
+  m_Name: PlayerStats
+  m_EditorClassIdentifier: 
+  Stats:
+  - StatName: 0
+    Value: 10
+  - StatName: 1
+    Value: 1
+  - StatName: 2
+    Value: 1
+  - StatName: 3
+    Value: 5
+  - StatName: 4
+    Value: 1
+  - StatName: 5
+    Value: 1
+  experience: 0
+  gold: 0
+  PossibleItemsList: []

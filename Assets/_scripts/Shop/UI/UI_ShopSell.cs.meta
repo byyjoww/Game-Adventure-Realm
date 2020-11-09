@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 56196c6145776594bac5ff4cfb75a294
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventory: {fileID: 11400000, guid: 186fe11eb220ff74f96fb1a319906bae, type: 2}
+  - pfTabElement: {instanceID: 0}
+  - tTabElement: {instanceID: 0}
+  - pfPanelElement: {instanceID: 0}
+  - tPanelElement: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
