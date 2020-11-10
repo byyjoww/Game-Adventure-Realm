@@ -26,13 +26,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private CurveControlledBob m_HeadBob = new CurveControlledBob();
         [SerializeField] private LerpControlledBob m_JumpBob = new LerpControlledBob();
         [SerializeField] private float m_StepInterval;
-        [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
-        [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
-        [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+
+        [Header("GROUND")]
+        [SerializeField] private AudioClip[] m_GroundFootstepSounds;        
+        [SerializeField] private AudioClip[] m_GroundJumpSounds;
+        [SerializeField] private AudioClip[] m_GroundLandSounds;
+        
+        [Header("WATER")]
+        [SerializeField] private AudioClip[] m_SwimmingSounds;
+        [SerializeField] private AudioClip[] m_OnWaterFootstepSounds;
+        [SerializeField] private AudioClip[] m_WaterJumpSounds;
+        [SerializeField] private AudioClip[] m_WaterLandSounds;
 
         private Camera m_Camera;
         private bool m_Jump;
         private bool m_Swim;
+        private bool m_OnWater;
         private float m_YRotation;
         private Vector2 m_Input;
         private Vector3 m_MoveDir = Vector3.zero;
@@ -49,6 +58,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AttackController m_Attack;
 
         public bool Swimming { get => m_Swim; set => m_Swim = value; }
+        public bool OnWater { get => m_OnWater; set => m_OnWater = value; }
         public MouseLook MouseLook => m_MouseLook;
 
         // Use this for initialization
@@ -95,11 +105,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
         }
 
+        private void PlayJumpSound()
+        {
+            //if (OnWater) { PlayRandomSound(m_WaterJumpSounds); }
+            //else { PlayRandomSound(m_GroundJumpSounds); }
+        }
+
         private void PlayLandingSound()
         {
-            m_AudioSource.clip = m_LandSound;
-            m_AudioSource.Play();
-            m_NextStep = m_StepCycle + .5f;
+            if (OnWater)
+            {
+                PlayRandomSound(m_WaterLandSounds);
+                m_NextStep = m_StepCycle + .5f;
+            }
+            else
+            {
+                PlayRandomSound(m_GroundLandSounds);
+                m_NextStep = m_StepCycle + .5f;
+            }            
         }
 
         private void FixedUpdate()
@@ -183,21 +206,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
+            ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
-        }
-
-        private void PlayJumpSound()
-        {
-            m_AudioSource.clip = m_JumpSound;
-            m_AudioSource.Play();
-        }
+        }                
 
         private void ProgressStepCycle(float speed)
         {
+            if (Swimming) { speed = 0.3f; }
             if (m_CharacterController.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
             {
-                m_StepCycle += (m_CharacterController.velocity.magnitude + (speed*(m_IsWalking ? 1f : m_RunstepLenghten)))*
-                             Time.fixedDeltaTime;
+                m_StepCycle += (m_CharacterController.velocity.magnitude + (speed*(m_IsWalking ? 1f : m_RunstepLenghten)))*Time.fixedDeltaTime;
             }
 
             if (!(m_StepCycle > m_NextStep))
@@ -212,18 +230,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void PlayFootStepAudio()
         {
-            if (!m_CharacterController.isGrounded)
+            // SWIMMING
+            if (m_Swim)
             {
+                PlayRandomSound(m_SwimmingSounds);
                 return;
             }
-            // pick & play a random footstep sound from the array,
-            // excluding sound at index 0
-            int n = Random.Range(1, m_FootstepSounds.Length);
-            m_AudioSource.clip = m_FootstepSounds[n];
-            m_AudioSource.PlayOneShot(m_AudioSource.clip);
-            // move picked sound to index 0 so it's not picked next time
-            m_FootstepSounds[n] = m_FootstepSounds[0];
-            m_FootstepSounds[0] = m_AudioSource.clip;
+
+            // JUMPING
+            if (!m_CharacterController.isGrounded) { return; }
+
+            // SWIMMING
+            if (m_OnWater)
+            {
+                PlayRandomSound(m_OnWaterFootstepSounds);
+                return;
+            }
+
+            // GROUND
+            PlayRandomSound(m_GroundFootstepSounds);
         }
 
         private void UpdateCameraPosition(float speed)
@@ -286,6 +311,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public void RestrictMovement(bool _status) => m_Disabled = _status;
 
         private void RotateView() => m_MouseLook.LookRotation(transform, m_Camera.transform);
+
+        private void PlayRandomSound(AudioClip[] _clipArray)
+        {
+            // Pick & play a random footstep sound from the array, excluding sound at index 0
+            int clip = Random.Range(1, _clipArray.Length);
+            m_AudioSource.clip = _clipArray[clip];
+            m_AudioSource.PlayOneShot(m_AudioSource.clip);
+
+            // Move picked sound to index 0 so it's not picked next time
+            _clipArray[clip] = _clipArray[0];
+            _clipArray[0] = m_AudioSource.clip;
+        }
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
