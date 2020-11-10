@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37796aabf14d64d469c6920642630de1, type: 3}
+  m_Name: Parchment
+  m_EditorClassIdentifier: 
+  itemName: Parchment
+  itemDescription: A blank piece of parchment.
+  itemSprite: {fileID: 21300000, guid: aac4901d75bcffa40b0db970132f58c4, type: 3}
+  isStackable: 1
+  itemRarity:
+    itemRarityLevel: 0
+  itemType:
+    itemType: 0
+  itemValue: 100

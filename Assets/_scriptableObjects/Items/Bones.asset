@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37796aabf14d64d469c6920642630de1, type: 3}
+  m_Name: Bones
+  m_EditorClassIdentifier: 
+  itemName: Bone
+  itemDescription: Animal bones.
+  itemSprite: {fileID: 21300000, guid: 21992d257940dd843988d38be8ffada5, type: 3}
+  isStackable: 1
+  itemRarity:
+    itemRarityLevel: 0
+  itemType:
+    itemType: 0
+  itemValue: 100

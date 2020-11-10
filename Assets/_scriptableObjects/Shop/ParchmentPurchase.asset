@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60088d4b93c91a943ac734c92a1bdf8b, type: 3}
+  m_Name: ParchmentPurchase
+  m_EditorClassIdentifier: 
+  purchasePrice: 1000
+  currency: {fileID: 11400000, guid: 6a06ee6ecb838c94fbc7d870296c9407, type: 2}
+  OnPurchaseFailed: {fileID: 11400000, guid: b0122793bd89db5419956f747706e89d, type: 2}
+  OnPurchaseSucceeded: {fileID: 11400000, guid: 4f8c8647b6d408b45a605b44c868ef2c,
+    type: 2}
+  item: {fileID: 11400000, guid: 46b0c1a25c9d0ce44a444c2ec564d0fb, type: 2}
+  itemInventory: {fileID: 11400000, guid: b9f4fae1478e1894d815aebc58cf09e5, type: 2}
+  quantity: 1
+  prefab: {fileID: 3909417735977492340, guid: 03b1525abf994ae4d832419906f5f74d, type: 3}

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: bace82a2c076cd44b95ed9ffbccca243
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - currency: {fileID: 11400000, guid: a956cb086d352774cb0171a814f98cca, type: 2}
+  - OnPurchaseFailed: {fileID: 11400000, guid: e8cab99bf683fc74295dcde7a41ee684, type: 2}
+  - OnPurchaseSucceeded: {fileID: 11400000, guid: 4fb175be85b217348968f7245525078d,
+      type: 2}
+  - purchaseSprite: {instanceID: 0}
+  - prefab: {fileID: 3909417735977492340, guid: cc01c7a1dd70811499bfacf6bfea6047,
+      type: 3}
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: ba8515ed24131ac4893c9e5f2b469c79, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
