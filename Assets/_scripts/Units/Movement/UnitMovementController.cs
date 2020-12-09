@@ -8,6 +8,7 @@ public class UnitMovementController : MonoBehaviour, IMovement
 {
     [SerializeField, Range(1f, 50f)] private float movementSpeed = 5f;
     [SerializeField, Range(1f, 50f)] private float runningSpeed = 10f;
+    [SerializeField, Range(1f, 50f)] private float stoppingDistance = 1f;
     [SerializeField, Range(1f, 50f)] private float wanderRadius = 10f;
     [SerializeField, Range(1f, 50f)] private float wanderInterval = 3f;
 
@@ -31,7 +32,16 @@ public class UnitMovementController : MonoBehaviour, IMovement
     {
         anim.SetAnimation("isRunning");
         navAgent.speed = runningSpeed;
-        navAgent.SetDestination(target.position);        
+        navAgent.stoppingDistance = stoppingDistance;
+        navAgent.SetDestination(target.position);
+        navAgent.isStopped = false;
+    }
+
+    public void FleeFromTarget(NavMeshAgent navAgent)
+    {
+        anim.SetAnimation("isRunning");
+        navAgent.speed = runningSpeed;
+        navAgent.SetDestination(AINavigation.Flee(target.position, navAgent, 5f));
         navAgent.isStopped = false;
     }
 

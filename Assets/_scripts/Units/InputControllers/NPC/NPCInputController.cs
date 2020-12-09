@@ -93,7 +93,12 @@ public class NPCInputController : MonoBehaviour
         else if (attack.combatTarget != null)
         {
             // HAS ENEMY TARGET
-            if (Vector3.Distance(transform.position, movement.target.position) > attack.AttackRange)
+            if (attack.Disabled)
+            {
+                // ATTACK CONTROLLER HAS BEEN DISABLED
+                if (currentState != "flee") { TransitionToState("flee"); }
+            }            
+            else if (Vector3.Distance(transform.position, movement.target.position) > attack.AttackRange)
             {
                 // NOT IN RANGE
                 if (!attack.IsAttacking) { if (currentState != "chase") { TransitionToState("chase"); } }                
@@ -115,6 +120,7 @@ public class NPCInputController : MonoBehaviour
         else if (currentState == "idle") { UpdateIdle(); }        
         else if (currentState == "wander") { UpdateWander(); }
         else if (currentState == "chase") { UpdateChase(); }
+        else if (currentState == "flee") { UpdateFlee(); }
         else if (currentState == "attack") { UpdateAttack(); }
     }
 
@@ -129,6 +135,7 @@ public class NPCInputController : MonoBehaviour
         else if (currentState == "idle") { ExitIdle(); }
         else if (currentState == "wander") { ExitWander(); }
         else if (currentState == "chase") { ExitChase(); }
+        else if (currentState == "flee") { ExitFlee(); }
         else if (currentState == "attack") { ExitAttack(); }
 
         if (state == "dead") { EnterDead(); }
@@ -136,6 +143,7 @@ public class NPCInputController : MonoBehaviour
         else if (state == "idle") { EnterIdle(); }
         else if (state == "wander") { EnterWander(); }
         else if (state == "chase") { EnterChase(); }
+        else if (state == "flee") { EnterFlee(); }
         else if (state == "attack") { EnterAttack(); }
     }
 
@@ -151,8 +159,12 @@ public class NPCInputController : MonoBehaviour
     private void UpdateChase() { movement.MoveToTarget(navAgent); }
     private void ExitChase() { }
 
+    private void EnterFlee() { currentState = "flee"; }
+    private void UpdateFlee() { movement.FleeFromTarget(navAgent); }
+    private void ExitFlee() { }
+
     private void EnterAttack() { currentState = "attack"; navAgent.isStopped = true; }
-    private void UpdateAttack() { transform.LookAt(movement.target); attack.TryAttack(1.7f); }
+    private void UpdateAttack() { transform.LookAt(movement.target); attack.TryAttack(); }
     private void ExitAttack() { }
 
     private void EnterDead()

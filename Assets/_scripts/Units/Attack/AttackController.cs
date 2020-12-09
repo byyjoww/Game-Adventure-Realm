@@ -36,6 +36,8 @@ public class AttackController : MonoBehaviour, IDamageDealer
     public float AttackInterval => attackInterval;
 
     private float attackCooldown = 0;
+
+    public bool Disabled => disabled;
     [SerializeField] private bool disabled = false;
 
     public bool CanAttack => attackCooldown == 0;
@@ -49,23 +51,22 @@ public class AttackController : MonoBehaviour, IDamageDealer
     private int SetDamage() => damage = (int)getDamage();
     public void BindDamage(Func<float> lambda) => getDamage = lambda;
 
-    public bool TryAttack(float damageDelay)
+    public bool TryAttack()
     {
         if (disabled) { return false; }
         if (!CanAttack) { return false; }
         if (!MouseLook.GetMouseLockStatus()) { return false; }
 
-        StartCoroutine(StartAttack(damageDelay));
+        IsAttacking = true;
+        anim.SetAnimation("isAttacking");
+        // StartAttack();
         return true;
     }
 
-    private IEnumerator StartAttack(float damageDelay)
+    // Set this as an animation event in the animator.
+    public void StartAttack()
     {
-        anim.SetAnimation("isAttacking");
-        IsAttacking = true;
-
         attackCooldown = attackInterval;
-        yield return new WaitForSeconds(damageDelay);
 
         if (target != null && combatTarget != null)
         {
@@ -78,8 +79,6 @@ public class AttackController : MonoBehaviour, IDamageDealer
 
         anim.SetAnimation(null);
         IsAttacking = false;
-
-        yield return null;
     }
 
     private void Update()

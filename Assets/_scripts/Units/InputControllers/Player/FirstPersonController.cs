@@ -87,7 +87,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                m_Attack.TryAttack(1f);
+                m_Attack.TryAttack();
             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded && !m_Swim)
