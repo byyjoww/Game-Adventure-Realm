@@ -43,8 +43,17 @@ public class HealthController : MonoBehaviour, IFillable, IDamageable
             damageDealer = _damageDealer;
             amount = _amount;
         }
+        
+        public void AddDamage(int _amount) => amount += _amount;
     }
 
+    public void AddDamageRecord(IDamageDealer _dealer, int _amount) 
+    {
+        var record = damageDealers.SingleOrDefault(x => x.damageDealer == _dealer);
+        
+        if (record != null) { record.AddDamage(_amount); }
+        else { damageDealers.Add(new DamageRecord(damageDealer, amount)); }
+    }
     public IDamageDealer GetKiller() => damageDealers.Where(x => x.damageDealer != null).OrderBy(x => x.amount).ToList()[0].damageDealer;
 
     // EVENTS
@@ -75,7 +84,8 @@ public class HealthController : MonoBehaviour, IFillable, IDamageable
         current = Mathf.Clamp(current - amount, 0, Max);
         Debug.Log($"Takes {amount} damage | Before: {prev} | After: {current}.");
 
-        damageDealers.Add(new DamageRecord(damageDealer, amount));
+        AddDamageRecord(damageDealer, amount);
+        
         OnTakeDamage?.Invoke(damageDealer, amount);
         OnChanged?.Invoke(prev, current);
         RaiseOnFillValueChanged(prev, current);
